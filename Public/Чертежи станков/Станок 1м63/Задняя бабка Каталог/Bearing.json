@@ -1,0 +1,29 @@
+[
+   {
+      "number":142,
+      "bearing":"8205",
+      "type": "thrust",
+      "amount":1,
+      "height":15,
+      "external_diameter":47,
+      "inner_diameter":25
+   },
+   {
+      "number":143,
+      "bearing":"8305",
+      "type": "thrust",
+      "amount":1,
+      "height":18,
+      "external_diameter":52,
+      "inner_diameter":25
+   },
+   {
+      "number":145,
+      "bearing":"0-80029",
+      "type": "radial",
+      "amount":4,
+      "height":8,
+      "external_diameter":26,
+      "inner_diameter":9
+   }
+]

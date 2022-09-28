@@ -1,0 +1,59 @@
+[
+   {
+      "name"     : "Роман",
+      "telegramID": "",
+      "Email"     : "Ctm.romazan@mail.ru",
+      "REGex"       : "щиток|кожух|стенка|сетка|сектор|прижим|днище|фрагмент|корыто|лист|косынка|рамка|лоток|скоба|ушко|ребро|фрагмент",
+      "connecting": "TELEGRAM&EMAIL"
+        
+      
+   },
+   {
+      "name": "Алексей Подорванов",
+      "telegramID": 5231471911,
+      "Email"     : "gears@rosstanko.com",
+      "REGex"       : "шестерня|зубчатое",
+      "connecting": "TELEGRAM&EMAIL"
+      
+   },
+   {
+      "name"   : "Сасово",
+      "telegramID": "",
+      "Email"      : "stanmech@mail.ru",
+      "REGex"        : "not",
+      "connecting" : "EMAIL"
+      
+   },
+   {
+      "name"  : "Павел Денискин",
+      "telegramID": 808162370,
+      "Email"     : "Paveldpv91@gmail.com",
+      "REGex"       : "not",
+      "connecting": "TELEGRAM&EMAIL"
+      
+   },
+   {
+      "name"  : "Общий чат РСПК",
+      "telegramID": "сюда id общего чата",
+      "Email"     : "cex62s@mail.ru",
+      "REGex"       : "not",
+      "connecting": "TELEGRAM&EMAIL"
+      
+   },
+   {
+      "name"  : "Неронов Андрей",
+      "telegramID": "сюда id общего чата",
+      "Email"     : "dialog303@yandex.ru ",
+      "REGex"       : "not",
+      "connecting": "TELEGRAM&EMAIL"
+      
+   },
+   {
+      "name": "Алексей Подшипиники",
+      "telegramID": "",
+      "Email"     : "",
+      "REGex"       : "подшипник",
+      "connecting": ""
+      
+   }
+]
