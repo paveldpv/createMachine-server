@@ -6,7 +6,7 @@ const serviceAccc = require('./../data/orderbaserspk-firebase-adminsdk-uy6iq-700
 
 initializeApp({
    credential: admin.credential.cert(serviceAccc),
-   databaseURL:'url'
+   databaseURL:'https://orderbaserspk-default-rtdb.europe-west1.firebasedatabase.app/'
 })
 
 const db = admin.database()

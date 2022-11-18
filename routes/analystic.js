@@ -94,9 +94,9 @@ module.exports = function (app) {
    app.post(`/analystic/getprice`,(req,res)=>{      
       let nameCouterpaty = req.body.nameCounterparty 
       console.log(nameCouterpaty);
-      db.ref(configDataBase.detail).child(nameCouterpaty).once(`value`,result=>{         
-         res.send(result.val())
-      })
+      // db.ref(configDataBase.detail).child(nameCouterpaty).once(`value`,result=>{         
+      //    res.send(result.val())
+      // })
       
    })
 

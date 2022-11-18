@@ -1,3 +1,5 @@
+let rek = "https://disk.yandex.ru/i/VOvEW6HQkKMtog"
+
 const createMessageOrder =(data=[],summary=false)=>{
    
    let date = data[0].date||NaN
@@ -41,6 +43,8 @@ const createMessageOrder =(data=[],summary=false)=>{
                Данный заказ был сформирован автоматический,<br>
                Ждем счет (=<br>
                по все вопросам обращаться по телефону 89106292550 Денискин Павел
+               <hr>
+               <a href=${rek}> РЕКВИЗИТЫ</a>
                </h4>
             </span>
       ` 

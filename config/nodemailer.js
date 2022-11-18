@@ -7,8 +7,8 @@ async function sendOrderToPerformer (to , msg=`` , date=`` ,files=[], subject=`Ð
       port:465,
       secure:true,
       auth:{
-         user:"email",
-         pass:"password"
+         user:"rspksnab@yandex.ru",
+         pass:"Xperia147258"
       }
       
    })

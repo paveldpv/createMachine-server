@@ -1,35 +1,31 @@
 const fs = require('fs')
-const admin = require('firebase-admin');
-const { initializeApp, applicationDefault} = require('firebase-admin/app');
-const configDataBase = require('../config/dbconfig');
-const bot = require('../config/telgramBot')
-const idChanel  =require ('./../config/idChanel')
-const serviceAccc = require('./../data/orderbaserspk-firebase-adminsdk-uy6iq-7004df63e5.json')//!удалить после проверки
+
 const moment = require('moment')
-
-
 const uniqid = require('uniqid'); 
 
-const getNameOrNumber = require('./../config/function/getNameOrNumber')
+const bot = require('../config/telgramBot')
+const idChanel  =require ('./../config/idChanel')
+
+const ControllerOrders = require('./../Controller/Orders')
+const ControllerPerformers = require('./../Controller/Performer')
 
 const nodemailer = require('./../config/nodemailer');
+const getNameOrNumber = require('./../config/function/getNameOrNumber')
 
 const createMessageOrder = require('../config/function/createMessageOrder');
 const ArrFiles     = require('../config/function/createArrFilesToSendEmail');
 
 
 
-// initializeApp({
-//    credential: admin.credential.cert(serviceAccc),
-//    databaseURL:'https://orderbaserspk-default-rtdb.europe-west1.firebasedatabase.app/'
-// })//!удлить после проверки
 
 const reportOrderOnTelegram = (id,dataOrder)=>{
-   let msg=``
+   let msg=`<b>ЗАКАЗ</b>
+`
    dataOrder.forEach(element=>{
-      msg +=`${getNameOrNumber(element.order).name} количество =  ${element.amount} \n`       
-     })
-     bot.sendMessage(id,msg)
+      msg +=`<b>${getNameOrNumber(element.order).name.replace(`.jpg`,` `)}</b> количество =  <b>${element.amount}</b>
+`       
+     })     
+     bot.sendMessage(id,msg,{parse_mode:`HTML`})
 }
 
 const dataOrderToDB = (data=[])=>{
@@ -100,17 +96,7 @@ const sendOrders =(data=[],mailer)=>{
    })
 }
 
-const allOrderPerformer = (data={},id)=>{
-   let arrOrder=[]
-   for (const id in data) {
-      let dataGroup = data[id]
-      for (const key in dataGroup) {
-         arrOrder.push(dataGroup[key])
-      }
-   }
-   
-  return createOrderToEmail(arrOrder).filter(element=>element.performer.id==id)[0].data
-}
+
 
 const sendSummarOrders= (order=[],email,mailer)=>{
    console.log(`working..`);
@@ -123,44 +109,53 @@ const sendSummarOrders= (order=[],email,mailer)=>{
 
 
 
-const db = admin.database()
+
 //создание заказа
 module.exports=function(app){
-   app.post('/sendorder',(req,res)=>{  
+   app.post('/sendorder',async(req,res)=>{  
      
       let dataOrder = req.body.orderPerformer
       console.log(`order ==`);  
       console.log(dataOrder);//[]
       let idGroup= uniqid(dataOrder[0].id)
-      db.ref(configDataBase.order).child(idGroup).set(dataOrderToDB(dataOrder))
-      reportOrderOnTelegram(idChanel.pavelDeniskin,dataOrder)      
-      sendOrders(createOrderToEmail(dataOrder),nodemailer)
-      res.send(`ok`)
+      let result=  await ControllerOrders.addNewOrders(dataOrder,idGroup)
+      // db.ref(configDataBase.order).child(idGroup).set(dataOrderToDB(dataOrder))
+      if(result){
+         reportOrderOnTelegram(idChanel.rspkGrooup,dataOrder)      
+         sendOrders(createOrderToEmail(dataOrder),nodemailer)
+         res.send(`ok`)      
+         console.log(`try....`);         
+      }
       
-     console.log(`try....`);
       
    })
+   //"выслать сводку"
    app.post(`/summaruOrder`,async (req,res)=>{
       let performerId   = req.body.performerID
       let role          = req.body.role
       let extendedEmail = req.body.extendedEmail
+      let currentEmailPerformer=  await ControllerPerformers.getActualEmail(performerId)
       let currentEmail =``
       console.log(req.body);
-      await db.ref(configDataBase.performers).child(performerId).once(`value`,email=>{
-         currentEmail = email.val().email
-      })
-       db.ref(configDataBase.order).once(`value`,result=>{   
-         if(result.val()){
-            let dataAllOrder =  allOrderPerformer(result.val(),performerId);         
-           sendSummarOrders(dataAllOrder,currentEmail,nodemailer)
-           sendSummarOrders(dataAllOrder,extendedEmail,nodemailer)
-         }
-         else{
-            console.log(`not found order to performer`);
-         }           
-         
-      })
-      .then(res.send(`ok`))
+      let result = await ControllerOrders.getOrderCurrentPerformer(performerId)
+      console.log(`===========`);
+      console.log(result);
+      console.log(`===========`);
+      if(!result.error){
+        sendSummarOrders(result.data,currentEmailPerformer,nodemailer)
+        sendSummarOrders(result.data,extendedEmail,nodemailer)
+        console.log(`ok`);
+        res.send(`сводка отправлена`)
+      }
+      else{
+         console.log(`not`);
+         res.json({
+            message:`у данного исполнителя нет активных заказов`,
+            error:true
+         })
+      }
+
+     
       
       
    })

@@ -3,7 +3,7 @@ const fileUpload = require('express-fileupload')
 const app = express();
 const PORT =process.env.PORT || 5000
 
-
+//cors
 app.use(function(req,res,next){
    res.setHeader('Access-Control-Allow-Origin','*');
    res.setHeader('Access-Control-Allow-Methods','DELETE','GET','POST');
@@ -12,6 +12,7 @@ app.use(function(req,res,next){
    express.static('public')
    next()
 })
+//cors
 
 app.use(fileUpload())//uploadFile
 app.use(express.json());

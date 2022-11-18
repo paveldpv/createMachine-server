@@ -1,6 +1,4 @@
 
-
-
 const createArrFilesToSendEmail =(data=[])=>{
    
    let files=[]

@@ -1,20 +1,15 @@
-
-
-const admin = require('firebase-admin')
-const db = admin.database()
-const configDataBase = require('../config/dbconfig')
-
+const ControlleHistoryOrder = require('./../Controller/HistoriOrders')
 
 module.exports = function (app) {   
-   app.post(`/historyorder`,(req,res)=>{      
-      db.ref(configDataBase.HistoryOrder).once(`value`,result=>{
-         let order = result.val()
-         let dataHistoryOrder =[]
-         for (const key in order) {
-            dataHistoryOrder.push(order[key])
-         }
-         res.send(dataHistoryOrder)
-      })
+   app.post(`/historyorder`,async(req,res)=>{      
+      let limitStart = req.body.limitStart;
+      let limitEnd = req.body.limitEnd;
+      let searchIDPerformer = req.body.performersID     
+      const data =await ControlleHistoryOrder.getHistory(limitStart,limitEnd,searchIDPerformer)
+      res.send(data)
+   })
+   app.post(`historyorder/search`,async(req,res)=>{
+      
    })
    
 }
