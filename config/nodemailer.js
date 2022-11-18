@@ -7,14 +7,14 @@ async function sendOrderToPerformer (to , msg=`` , date=`` ,files=[], subject=`Ð
       port:465,
       secure:true,
       auth:{
-         user:"rspksnab@yandex.ru",
-         pass:"Xperia147258"
+         user:"email",
+         pass:"pas"
       }
       
    })
    
    let info = await transporter.sendMail({
-      from:'rspksnab@yandex.ru',
+      from:'email',
       to:to,
       subject:`${subject} : ${date}`,
      // text:msg,
